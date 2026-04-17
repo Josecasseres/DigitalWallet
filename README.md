@@ -148,4 +148,4 @@ Tema neon-glass oscuro con modo claro opcional:
 
 ## Autor
 
-**Jose Carlos** — Parcial II · 8vo semestre Ingeniería de Sistemas
+**Jose Carlos Casseres** — Parcial II · 6to semestre Ingeniería de Sistemas
