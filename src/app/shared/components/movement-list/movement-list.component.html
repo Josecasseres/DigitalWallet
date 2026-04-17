@@ -1,0 +1,26 @@
+<div class="mv-list" *ngIf="items.length > 0; else noItems">
+  <div class="mv-row"
+    *ngFor="let item of items; trackBy: trackById"
+    (mousedown)="startHold(item)" (mouseup)="endHold()" (mouseleave)="endHold()"
+    (touchstart)="startHold(item)" (touchend)="endHold()" (touchcancel)="endHold()">
+    <div class="mv-icon">
+      <span *ngIf="item.reaction; else defaultIcon">{{ item.reaction }}</span>
+      <ng-template #defaultIcon>
+        <ion-icon name="receipt-outline"></ion-icon>
+      </ng-template>
+    </div>
+    <div class="mv-info">
+      <p class="store-name">{{ item.storeName }}</p>
+      <small class="meta">•••• {{ item.sourceLast4 }} · {{ item.timestamp | date:'dd MMM, HH:mm' }}</small>
+    </div>
+    <div class="mv-amount">
+      <span>-${{ item.chargedAmount | number:'1.0-0' }}</span>
+    </div>
+  </div>
+</div>
+<ng-template #noItems>
+  <div class="mv-empty">
+    <ion-icon name="cloud-offline-outline"></ion-icon>
+    <p>Sin movimientos</p>
+  </div>
+</ng-template>

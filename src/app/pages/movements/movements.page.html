@@ -1,0 +1,74 @@
+<ion-header class="mv-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="icon-btn">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Historial</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="resetFilters()" class="icon-btn">
+        <ion-icon name="refresh-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="mv-content">
+  <div class="mv-summary">
+    <div class="summary-inner">
+      <div class="summary-block">
+        <span class="summary-lbl">Total gastado</span>
+        <span class="summary-amt">${{ (totalSpent$ | async) | number:'1.0-0' }}</span>
+      </div>
+      <div class="summary-icon">
+        <ion-icon name="trending-down-outline"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-zone">
+    <div class="filter-card">
+      <div class="filter-field">
+        <ion-icon name="card-outline"></ion-icon>
+        <ion-select placeholder="Todas las tarjetas" interface="action-sheet" (ionChange)="onCardFilter($any($event))">
+          <ion-select-option value="">Todas</ion-select-option>
+          <ion-select-option *ngFor="let c of cards$ | async" [value]="c.id">
+            {{ c.network | uppercase }} •••• {{ c.lastDigits }}
+          </ion-select-option>
+        </ion-select>
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-field">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <ion-input type="date" placeholder="Filtrar por fecha" (ionChange)="onDateFilter($any($event))"></ion-input>
+      </div>
+    </div>
+  </div>
+
+  <div class="mv-list-wrap">
+    <app-movement-list
+      [items]="(filtered$ | async) ?? []"
+      (holdItem)="openReactions($event)">
+    </app-movement-list>
+  </div>
+</ion-content>
+
+<ion-modal
+  [isOpen]="!!activeItem"
+  (didDismiss)="closeReactions()"
+  [initialBreakpoint]="0.45"
+  [breakpoints]="[0, 0.45]"
+  cssClass="reaction-sheet">
+  <ng-template>
+    <div class="reaction-panel">
+      <div class="reaction-handle"></div>
+      <p class="reaction-title">¿Cómo fue este gasto?</p>
+      <div class="reaction-grid">
+        <button class="reaction-btn" *ngFor="let r of reactions" (click)="applyReaction(r)">
+          {{ r }}
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</ion-modal>

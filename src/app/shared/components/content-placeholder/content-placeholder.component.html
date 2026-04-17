@@ -1,0 +1,12 @@
+<div class="ph-wrap" [class.is-row]="variant === 'row'">
+  <div *ngFor="let r of rows" class="ph-item" [class.ph-card]="variant === 'card'" [class.ph-row]="variant === 'row'">
+    <ng-container *ngIf="variant === 'row'">
+      <ion-skeleton-text animated style="width:42px;height:42px;border-radius:12px;flex-shrink:0"></ion-skeleton-text>
+      <div class="ph-lines">
+        <ion-skeleton-text animated style="width:55%"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width:35%"></ion-skeleton-text>
+      </div>
+    </ng-container>
+    <ion-skeleton-text *ngIf="variant !== 'row'" animated></ion-skeleton-text>
+  </div>
+</div>

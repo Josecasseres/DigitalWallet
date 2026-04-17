@@ -1,0 +1,94 @@
+<ion-content class="su-content">
+  <div class="su-bg">
+    <div class="su-orb su-orb1"></div>
+    <div class="su-orb su-orb2"></div>
+  </div>
+
+  <div class="su-wrapper">
+    <div class="su-header">
+      <button class="back-btn" (click)="goLogin()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+      <div>
+        <h1>Crear cuenta</h1>
+        <p>Completa tu información personal</p>
+      </div>
+    </div>
+
+    <div class="su-card">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="su-row">
+          <div class="field-group" [class.invalid]="form.controls.firstName.touched && form.controls.firstName.invalid">
+            <label>Nombre</label>
+            <div class="field-inner">
+              <ion-input formControlName="firstName" placeholder="Juan" autocomplete="given-name"></ion-input>
+            </div>
+          </div>
+          <div class="field-group" [class.invalid]="form.controls.lastName.touched && form.controls.lastName.invalid">
+            <label>Apellido</label>
+            <div class="field-inner">
+              <ion-input formControlName="lastName" placeholder="Pérez" autocomplete="family-name"></ion-input>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Tipo de documento</label>
+          <div class="field-inner select-wrap">
+            <ion-select formControlName="idType" interface="action-sheet" placeholder="Selecciona">
+              <ion-select-option *ngFor="let t of idTypes" [value]="t.value">{{ t.label }}</ion-select-option>
+            </ion-select>
+          </div>
+        </div>
+
+        <div class="field-group" [class.invalid]="form.controls.idNumber.touched && form.controls.idNumber.invalid">
+          <label>Número de documento</label>
+          <div class="field-inner">
+            <ion-icon name="card-outline"></ion-icon>
+            <ion-input type="tel" inputmode="numeric" formControlName="idNumber" placeholder="1234567890"></ion-input>
+          </div>
+          <span class="err-hint" *ngIf="form.controls.idNumber.touched && form.controls.idNumber.invalid">Formato inválido (4–15 dígitos)</span>
+        </div>
+
+        <div class="field-group">
+          <label>País</label>
+          <div class="field-inner">
+            <ion-icon name="earth-outline"></ion-icon>
+            <ion-input formControlName="country" placeholder="Colombia"></ion-input>
+          </div>
+        </div>
+
+        <div class="su-divider"></div>
+
+        <div class="field-group" [class.invalid]="form.controls.email.touched && form.controls.email.invalid">
+          <label>Correo electrónico</label>
+          <div class="field-inner">
+            <ion-icon name="mail-outline"></ion-icon>
+            <ion-input type="email" formControlName="email" placeholder="tu@correo.com" autocomplete="email"></ion-input>
+          </div>
+          <span class="err-hint" *ngIf="form.controls.email.touched && form.controls.email.invalid">Email inválido</span>
+        </div>
+
+        <div class="field-group" [class.invalid]="form.controls.password.touched && form.controls.password.invalid">
+          <label>Contraseña</label>
+          <div class="field-inner">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <ion-input [type]="showPass ? 'text' : 'password'" formControlName="password" placeholder="Mín. 6 caracteres" autocomplete="new-password"></ion-input>
+            <ion-icon [name]="showPass ? 'eye-off-outline' : 'eye-outline'" class="pass-toggle" (click)="showPass = !showPass"></ion-icon>
+          </div>
+          <span class="err-hint" *ngIf="form.controls.password.touched && form.controls.password.invalid">Mínimo 6 caracteres</span>
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="loading">
+          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+          <span *ngIf="!loading">Crear mi cuenta</span>
+        </button>
+      </form>
+
+      <div class="su-footer">
+        <span>¿Ya tienes cuenta?</span>
+        <button class="link-btn" (click)="goLogin()">Inicia sesión</button>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,11 @@
+<div class="ag-wrap">
+  <button
+    class="ag-btn"
+    *ngFor="let a of actions; trackBy: trackByKey"
+    (click)="actionSelected.emit(a.key)">
+    <div class="ag-icon-wrap">
+      <ion-icon [name]="a.icon"></ion-icon>
+    </div>
+    <span class="ag-label">{{ a.label }}</span>
+  </button>
+</div>

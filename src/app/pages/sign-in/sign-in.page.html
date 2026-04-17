@@ -1,0 +1,61 @@
+<ion-content class="si-content">
+  <div class="si-bg">
+    <div class="si-orb si-orb1"></div>
+    <div class="si-orb si-orb2"></div>
+  </div>
+
+  <div class="si-wrapper">
+    <div class="si-header">
+      <div class="si-logo">
+        <ion-icon name="wallet-outline"></ion-icon>
+      </div>
+      <h1>DigitalWallet</h1>
+      <p>Tu billetera en la palma de tu mano</p>
+    </div>
+
+    <div class="si-card">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="field-group" [class.invalid]="form.controls.email.touched && form.controls.email.invalid">
+          <label>Correo electrónico</label>
+          <div class="field-inner">
+            <ion-icon name="mail-outline"></ion-icon>
+            <ion-input type="email" formControlName="email" placeholder="tu@correo.com" autocomplete="email"></ion-input>
+          </div>
+          <span class="err-hint" *ngIf="form.controls.email.touched && form.controls.email.invalid">Email inválido</span>
+        </div>
+
+        <div class="field-group" [class.invalid]="form.controls.password.touched && form.controls.password.invalid">
+          <label>Contraseña</label>
+          <div class="field-inner">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <ion-input [type]="showPass ? 'text' : 'password'" formControlName="password" placeholder="Mín. 6 caracteres" autocomplete="current-password"></ion-input>
+            <ion-icon [name]="showPass ? 'eye-off-outline' : 'eye-outline'" class="pass-toggle" (click)="showPass = !showPass"></ion-icon>
+          </div>
+          <span class="err-hint" *ngIf="form.controls.password.touched && form.controls.password.invalid">Mínimo 6 caracteres</span>
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="loading">
+          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+          <span *ngIf="!loading">Ingresar</span>
+        </button>
+
+        <div class="divider"><span>o continúa con</span></div>
+
+        <button type="button" class="btn-google" (click)="signInGoogle()" [disabled]="loading">
+          <ion-icon name="logo-google"></ion-icon>
+          Google
+        </button>
+
+        <button type="button" class="btn-biometric" *ngIf="biometricAvailable" (click)="signInBiometric()" [disabled]="loading">
+          <ion-icon name="finger-print-outline"></ion-icon>
+          Biometría
+        </button>
+      </form>
+
+      <div class="si-footer">
+        <span>¿No tienes cuenta?</span>
+        <button class="link-btn" (click)="goRegister()">Regístrate</button>
+      </div>
+    </div>
+  </div>
+</ion-content>

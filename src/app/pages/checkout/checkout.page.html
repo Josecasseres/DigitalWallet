@@ -1,0 +1,70 @@
+<ion-content class="co-content">
+  <div class="co-bg"><div class="co-orb"></div></div>
+
+  <div class="co-wrapper">
+    <div class="co-header">
+      <button class="back-btn" (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+      <div>
+        <h1>Realizar pago</h1>
+        <p>Selecciona tarjeta y destino</p>
+      </div>
+    </div>
+
+    <ng-container *ngIf="cards$ | async as cards">
+      <div *ngIf="cards.length === 0" class="co-empty">
+        <div class="empty-icon"><ion-icon name="card-outline"></ion-icon></div>
+        <p>No tienes tarjetas registradas</p>
+        <button class="btn-outline" routerLink="/new-card">Agregar tarjeta</button>
+      </div>
+
+      <ng-container *ngIf="cards.length > 0">
+        <div class="preview-slot" *ngIf="chosenCard">
+          <app-wallet-card [card]="chosenCard" [showBalance]="true"></app-wallet-card>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" class="co-form">
+          <div class="field-group">
+            <label>Tarjeta</label>
+            <div class="field-inner select-wrap">
+              <ion-icon name="card-outline"></ion-icon>
+              <ion-select formControlName="cardId" interface="action-sheet" placeholder="Elige una tarjeta">
+                <ion-select-option *ngFor="let c of cards" [value]="c.id">
+                  {{ c.network | uppercase }} •••• {{ c.lastDigits }}
+                </ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+
+          <div class="field-group" [class.invalid]="form.controls.storeName.touched && form.controls.storeName.invalid">
+            <label>Comercio</label>
+            <div class="field-inner">
+              <ion-icon name="storefront-outline"></ion-icon>
+              <ion-input formControlName="storeName" placeholder="Ej: Amazon, Netflix..."></ion-input>
+            </div>
+          </div>
+
+          <div class="field-group" [class.invalid]="form.controls.chargedAmount.touched && form.controls.chargedAmount.invalid">
+            <label>Monto (COP)</label>
+            <div class="field-inner">
+              <ion-icon name="cash-outline"></ion-icon>
+              <ion-input type="number" formControlName="chargedAmount" placeholder="10000"></ion-input>
+            </div>
+            <span class="err-hint" *ngIf="form.controls.chargedAmount.touched && form.controls.chargedAmount.invalid">Mínimo $1,000</span>
+          </div>
+
+          <button type="button" class="btn-simulate" (click)="randomize()">
+            <ion-icon name="shuffle-outline"></ion-icon>
+            Simular comercio aleatorio
+          </button>
+
+          <button type="submit" class="btn-pay" [disabled]="form.invalid">
+            <ion-icon name="arrow-up-circle-outline"></ion-icon>
+            Pagar ahora
+          </button>
+        </form>
+      </ng-container>
+    </ng-container>
+  </div>
+</ion-content>

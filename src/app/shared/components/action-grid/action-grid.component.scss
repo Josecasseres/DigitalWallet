@@ -1,0 +1,46 @@
+.ag-wrap {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 16px;
+  gap: 8px;
+}
+
+.ag-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  &:active .ag-icon-wrap {
+    background: rgba(124,58,237,0.35);
+    transform: scale(0.93);
+  }
+}
+
+.ag-icon-wrap {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(124,58,237,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+
+  ion-icon {
+    font-size: 24px;
+    color: #a78bfa;
+  }
+}
+
+.ag-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.65);
+}

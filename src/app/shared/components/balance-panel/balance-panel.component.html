@@ -1,0 +1,23 @@
+<div class="bp-container">
+  <div class="bp-inner">
+    <p class="bp-welcome">{{ welcome }}</p>
+    <h2 class="bp-name">{{ userName }}</h2>
+    <div class="bp-row">
+      <div class="bp-data">
+        <small class="bp-lbl">Balance total</small>
+        <h1 class="bp-amount">
+          <ng-container *ngIf="visible; else masked">
+            ${{ (totalBalance ?? 0) | number:'1.0-0' }}
+          </ng-container>
+          <ng-template #masked>••••••••</ng-template>
+        </h1>
+      </div>
+      <button class="bp-toggle" (click)="toggleVisibility.emit()">
+        <ion-icon [name]="visible ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+      </button>
+    </div>
+  </div>
+  <div class="bp-dots">
+    <span></span><span></span><span></span>
+  </div>
+</div>

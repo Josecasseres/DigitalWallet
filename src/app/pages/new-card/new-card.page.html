@@ -1,0 +1,71 @@
+<ion-content class="nc-content">
+  <div class="nc-bg"><div class="nc-orb"></div></div>
+
+  <div class="nc-wrapper">
+    <div class="nc-header">
+      <button class="back-btn" (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+      <div>
+        <h1>Nueva tarjeta</h1>
+        <p>Agrega una Visa o Mastercard</p>
+      </div>
+    </div>
+
+    <div class="preview-area">
+      <app-wallet-card [card]="cardPreview" [showBalance]="false"></app-wallet-card>
+    </div>
+
+    <div *ngIf="detectedNetwork !== 'unknown'" class="network-badge">
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
+      {{ detectedNetwork | uppercase }} detectada
+    </div>
+
+    <div class="nc-form-card">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="field-group" [class.invalid]="form.controls.cardHolder.touched && form.controls.cardHolder.invalid">
+          <label>Titular de la tarjeta</label>
+          <div class="field-inner">
+            <ion-icon name="person-outline"></ion-icon>
+            <ion-input formControlName="cardHolder" placeholder="JUAN PÉREZ" autocapitalize="characters"></ion-input>
+          </div>
+        </div>
+
+        <div class="field-group" [class.invalid]="form.controls.cardNumber.touched && form.controls.cardNumber.invalid">
+          <label>Número de tarjeta</label>
+          <div class="field-inner">
+            <ion-icon name="card-outline"></ion-icon>
+            <ion-input type="tel" inputmode="numeric" formControlName="cardNumber"
+              (ionInput)="onNumberInput($event)" maxlength="23" placeholder="1234 5678 9012 3456"></ion-input>
+          </div>
+        </div>
+
+        <div class="nc-row">
+          <div class="field-group" [class.invalid]="form.controls.expiration.touched && form.controls.expiration.invalid">
+            <label>Expiración</label>
+            <div class="field-inner">
+              <ion-input type="tel" inputmode="numeric" formControlName="expiration"
+                (ionInput)="onExpiryInput($event)" maxlength="5" placeholder="MM/AA"></ion-input>
+            </div>
+            <span class="err-hint" *ngIf="form.controls.expiration.touched && form.controls.expiration.invalid">Formato MM/AA</span>
+          </div>
+
+          <div class="field-group" [class.invalid]="form.controls.cvv.touched && form.controls.cvv.invalid">
+            <label>CVV</label>
+            <div class="field-inner">
+              <ion-input type="tel" inputmode="numeric" formControlName="cvv" maxlength="4" placeholder="•••"></ion-input>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="loading">
+          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+          <ng-container *ngIf="!loading">
+            <ion-icon name="add-circle-outline"></ion-icon>
+            Guardar tarjeta
+          </ng-container>
+        </button>
+      </form>
+    </div>
+  </div>
+</ion-content>

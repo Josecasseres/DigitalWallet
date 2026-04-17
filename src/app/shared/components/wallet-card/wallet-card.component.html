@@ -1,0 +1,25 @@
+<div class="dw-card" [class.network-visa]="card.network === 'visa'" [class.network-mc]="card.network === 'mastercard'">
+  <div class="card-glow"></div>
+  <div class="card-header">
+    <div class="chip-icon">
+      <div class="chip-line"></div>
+      <div class="chip-line"></div>
+    </div>
+    <span class="network-badge">{{ networkLabel }}</span>
+  </div>
+  <div class="card-number">•••• •••• •••• {{ card.lastDigits }}</div>
+  <div class="card-footer">
+    <div class="holder-info">
+      <span class="field-label">TITULAR</span>
+      <span class="field-value">{{ card.cardHolder }}</span>
+    </div>
+    <div class="expiry-info">
+      <span class="field-label">VENCE</span>
+      <span class="field-value">{{ expiryLabel }}</span>
+    </div>
+  </div>
+  <div class="card-balance" *ngIf="showBalance">
+    <span class="balance-label">Saldo disponible</span>
+    <span class="balance-amount">${{ card.availableBalance | number:'1.0-0' }}</span>
+  </div>
+</div>

@@ -32,6 +32,53 @@
  * https://ionicframework.com/docs/theming/dark-mode
  */
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+@import "@ionic/angular/css/palettes/dark.always.css";
+
+/* DigitalWallet — global tokens */
+:root {
+  --dw-bg: #0d0b18;
+  --dw-surface: rgba(255,255,255,0.04);
+  --dw-border: rgba(255,255,255,0.08);
+  --dw-primary: #7c3aed;
+  --dw-primary-light: #a78bfa;
+  --dw-text: #f1f0f5;
+  --dw-muted: rgba(255,255,255,0.4);
+  --dw-danger: #f87171;
+  --dw-success: #34d399;
+}
+
+ion-app { background: var(--dw-bg); }
+
+/* Toast overrides */
+.dw-toast {
+  --background: #1e1b30;
+  --color: #f1f0f5;
+  --border-radius: 14px;
+  font-size: 14px;
+}
+
+/* Alert overrides */
+.dw-alert .alert-wrapper,
+.dw-alert-danger .alert-wrapper {
+  background: #1e1b30 !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  border-radius: 20px !important;
+  .alert-title { color: #f1f0f5 !important; }
+  .alert-message { color: rgba(255,255,255,0.6) !important; }
+  .alert-button { color: var(--dw-primary-light) !important; font-weight: 600; }
+}
+
+.dw-alert-danger .alert-button:last-child { color: var(--dw-danger) !important; }
+
+/* Spinner overlay */
+.dw-spinner .loading-wrapper {
+  background: #1e1b30 !important;
+  border-radius: 16px !important;
+  color: rgba(255,255,255,0.7) !important;
+}
+
+/* Reaction sheet */
+.reaction-sheet::part(content) {
+  background: #1a1730;
+  border-radius: 24px 24px 0 0;
+}

@@ -1,0 +1,112 @@
+.dw-card {
+  border-radius: 20px;
+  padding: 22px 20px 16px;
+  color: #fff;
+  min-height: 195px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1e1e2e 0%, #2d2b55 100%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255,255,255,0.06);
+
+  &.network-visa {
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    .network-badge { color: #e8d5b7; }
+  }
+
+  &.network-mc {
+    background: linear-gradient(135deg, #200122 0%, #6f0000 100%);
+    .network-badge { color: #f7c59f; }
+  }
+
+  .card-glow {
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,58,237,0.3) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .chip-icon {
+    width: 36px;
+    height: 26px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #c8a84b, #f0d060);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 6px;
+    .chip-line {
+      height: 2px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 2px;
+    }
+  }
+
+  .network-badge {
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 2px;
+    opacity: 0.9;
+  }
+
+  .card-number {
+    font-size: 20px;
+    letter-spacing: 4px;
+    font-family: 'Courier New', monospace;
+    margin: 10px 0;
+    opacity: 0.9;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 8px;
+    opacity: 0.55;
+    letter-spacing: 1.5px;
+    margin-bottom: 2px;
+  }
+
+  .field-value {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .card-balance {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .balance-label {
+      font-size: 10px;
+      opacity: 0.55;
+      letter-spacing: 0.5px;
+    }
+
+    .balance-amount {
+      font-size: 18px;
+      font-weight: 700;
+      color: #a78bfa;
+    }
+  }
+}

@@ -1,0 +1,66 @@
+<ion-header class="db-header" [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <div class="db-title-row">
+        <ion-icon name="wallet-outline"></ion-icon>
+        <span>DigitalWallet</span>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="biometricSupported" (click)="toggleBiometric()" class="icon-btn">
+        <ion-icon slot="icon-only" [name]="biometricActive ? 'finger-print' : 'finger-print-outline'"></ion-icon>
+      </ion-button>
+      <ion-button (click)="logout()" class="icon-btn">
+        <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="db-content" [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Mi Billetera</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <app-balance-panel
+    [userName]="displayName$ | async"
+    [totalBalance]="totalBalance$ | async"
+    [visible]="showBalance"
+    (toggleVisibility)="toggleBalance()">
+  </app-balance-panel>
+
+  <app-action-grid [actions]="gridActions" (actionSelected)="onActionSelected($event)"></app-action-grid>
+
+  <div class="db-section">
+    <div class="db-section-header">
+      <h3>Mis tarjetas</h3>
+      <button class="add-card-btn" (click)="onActionSelected('add')">
+        <ion-icon name="add-outline"></ion-icon>
+      </button>
+    </div>
+
+    <ng-container *ngIf="cards$ | async as cards; else loadingState">
+      <div *ngIf="cards.length === 0" class="db-empty">
+        <div class="empty-icon">
+          <ion-icon name="card-outline"></ion-icon>
+        </div>
+        <p>Sin tarjetas registradas</p>
+        <button class="btn-outline" (click)="onActionSelected('add')">Agregar tarjeta</button>
+      </div>
+
+      <div class="cards-scroll" *ngIf="cards.length > 0">
+        <div class="card-slot"
+          *ngFor="let c of cards; trackBy: trackById"
+          (click)="confirmRemoveCard(c)">
+          <app-wallet-card [card]="c" [showBalance]="showBalance"></app-wallet-card>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #loadingState>
+      <app-content-placeholder variant="card" [count]="2"></app-content-placeholder>
+    </ng-template>
+  </div>
+</ion-content>
