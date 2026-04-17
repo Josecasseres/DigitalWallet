@@ -1,13 +1,16 @@
 <ion-header class="db-header" [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      <div class="db-title-row">
-        <ion-icon name="wallet-outline"></ion-icon>
-        <span>DigitalWallet</span>
+      <div class="db-title-row dw-anim-fade-down">
+        <div class="db-logo">
+          <ion-icon name="wallet-outline"></ion-icon>
+        </div>
+        <span class="dw-gradient-text">DigitalWallet</span>
       </div>
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button *ngIf="biometricSupported" (click)="toggleBiometric()" class="icon-btn">
+      <ion-button *ngIf="biometricSupported" (click)="toggleBiometric()" class="icon-btn"
+                  [class.active]="biometricActive">
         <ion-icon slot="icon-only" [name]="biometricActive ? 'finger-print' : 'finger-print-outline'"></ion-icon>
       </ion-button>
       <ion-button (click)="logout()" class="icon-btn">
@@ -18,49 +21,69 @@
 </ion-header>
 
 <ion-content class="db-content" [fullscreen]="true">
+  <div class="db-bg">
+    <div class="dw-orb dw-orb--purple db-orb1"></div>
+    <div class="dw-orb dw-orb--pink db-orb2"></div>
+  </div>
+
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Mi Billetera</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-balance-panel
-    [userName]="displayName$ | async"
-    [totalBalance]="totalBalance$ | async"
-    [visible]="showBalance"
-    (toggleVisibility)="toggleBalance()">
-  </app-balance-panel>
-
-  <app-action-grid [actions]="gridActions" (actionSelected)="onActionSelected($event)"></app-action-grid>
-
-  <div class="db-section">
-    <div class="db-section-header">
-      <h3>Mis tarjetas</h3>
-      <button class="add-card-btn" (click)="onActionSelected('add')">
-        <ion-icon name="add-outline"></ion-icon>
-      </button>
+  <div class="db-stack">
+    <div class="dw-anim-fade-up">
+      <app-balance-panel
+        [userName]="displayName$ | async"
+        [totalBalance]="totalBalance$ | async"
+        [visible]="showBalance"
+        (toggleVisibility)="toggleBalance()">
+      </app-balance-panel>
     </div>
 
-    <ng-container *ngIf="cards$ | async as cards; else loadingState">
-      <div *ngIf="cards.length === 0" class="db-empty">
-        <div class="empty-icon">
-          <ion-icon name="card-outline"></ion-icon>
-        </div>
-        <p>Sin tarjetas registradas</p>
-        <button class="btn-outline" (click)="onActionSelected('add')">Agregar tarjeta</button>
+    <div class="dw-anim-fade-up dw-delay-2">
+      <app-action-grid [actions]="gridActions" (actionSelected)="onActionSelected($event)"></app-action-grid>
+    </div>
+
+    <div class="db-section dw-anim-fade-up dw-delay-3">
+      <div class="db-section-header">
+        <h3>
+          <span class="section-index">03</span>
+          Mis tarjetas
+        </h3>
+        <button class="add-card-btn dw-press" (click)="onActionSelected('add')">
+          <ion-icon name="add-outline"></ion-icon>
+        </button>
       </div>
 
-      <div class="cards-scroll" *ngIf="cards.length > 0">
-        <div class="card-slot"
-          *ngFor="let c of cards; trackBy: trackById"
-          (click)="confirmRemoveCard(c)">
-          <app-wallet-card [card]="c" [showBalance]="showBalance"></app-wallet-card>
+      <ng-container *ngIf="cards$ | async as cards; else loadingState">
+        <div *ngIf="cards.length === 0" class="db-empty dw-anim-pop">
+          <div class="empty-icon">
+            <ion-icon name="card-outline"></ion-icon>
+            <div class="empty-ring"></div>
+          </div>
+          <p>Aún no tienes tarjetas registradas</p>
+          <span class="empty-sub">Agrega una para empezar a pagar</span>
+          <button class="btn-outline dw-press" (click)="onActionSelected('add')">
+            <ion-icon name="add-circle-outline"></ion-icon>
+            Agregar tarjeta
+          </button>
         </div>
-      </div>
-    </ng-container>
 
-    <ng-template #loadingState>
-      <app-content-placeholder variant="card" [count]="2"></app-content-placeholder>
-    </ng-template>
+        <div class="cards-scroll" *ngIf="cards.length > 0">
+          <div class="card-slot dw-anim-fade-up"
+            *ngFor="let c of cards; let i = index; trackBy: trackById"
+            [style.animation-delay]="(0.1 * i) + 's'"
+            (click)="confirmRemoveCard(c)">
+            <app-wallet-card [card]="c" [showBalance]="showBalance"></app-wallet-card>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #loadingState>
+        <app-content-placeholder variant="card" [count]="2"></app-content-placeholder>
+      </ng-template>
+    </div>
   </div>
 </ion-content>

@@ -1,21 +1,27 @@
-<ion-content class="si-content">
+<ion-content class="si-content" [fullscreen]="true">
   <div class="si-bg">
-    <div class="si-orb si-orb1"></div>
-    <div class="si-orb si-orb2"></div>
+    <div class="dw-orb dw-orb--purple si-orb1"></div>
+    <div class="dw-orb dw-orb--pink si-orb2"></div>
+    <div class="dw-orb dw-orb--cyan si-orb3"></div>
+    <div class="si-grid"></div>
   </div>
 
   <div class="si-wrapper">
     <div class="si-header">
-      <div class="si-logo">
+      <div class="si-logo dw-anim-bounce">
+        <div class="si-logo__ring"></div>
         <ion-icon name="wallet-outline"></ion-icon>
       </div>
-      <h1>DigitalWallet</h1>
-      <p>Tu billetera en la palma de tu mano</p>
+      <h1 class="dw-anim-fade-up dw-delay-1">
+        <span class="dw-gradient-text">DigitalWallet</span>
+      </h1>
+      <p class="dw-anim-fade-up dw-delay-2">Tu billetera en la palma de tu mano</p>
     </div>
 
-    <div class="si-card">
+    <div class="si-card dw-anim-fade-up dw-delay-3">
       <form [formGroup]="form" (ngSubmit)="submit()">
-        <div class="field-group" [class.invalid]="form.controls.email.touched && form.controls.email.invalid">
+        <div class="field-group dw-anim-slide-r dw-delay-4"
+             [class.invalid]="form.controls.email.touched && form.controls.email.invalid">
           <label>Correo electrónico</label>
           <div class="field-inner">
             <ion-icon name="mail-outline"></ion-icon>
@@ -24,35 +30,42 @@
           <span class="err-hint" *ngIf="form.controls.email.touched && form.controls.email.invalid">Email inválido</span>
         </div>
 
-        <div class="field-group" [class.invalid]="form.controls.password.touched && form.controls.password.invalid">
+        <div class="field-group dw-anim-slide-r dw-delay-5"
+             [class.invalid]="form.controls.password.touched && form.controls.password.invalid">
           <label>Contraseña</label>
           <div class="field-inner">
             <ion-icon name="lock-closed-outline"></ion-icon>
-            <ion-input [type]="showPass ? 'text' : 'password'" formControlName="password" placeholder="Mín. 6 caracteres" autocomplete="current-password"></ion-input>
-            <ion-icon [name]="showPass ? 'eye-off-outline' : 'eye-outline'" class="pass-toggle" (click)="showPass = !showPass"></ion-icon>
+            <ion-input [type]="showPass ? 'text' : 'password'" formControlName="password"
+                       placeholder="Mín. 6 caracteres" autocomplete="current-password"></ion-input>
+            <ion-icon [name]="showPass ? 'eye-off-outline' : 'eye-outline'"
+                      class="pass-toggle" (click)="showPass = !showPass"></ion-icon>
           </div>
           <span class="err-hint" *ngIf="form.controls.password.touched && form.controls.password.invalid">Mínimo 6 caracteres</span>
         </div>
 
-        <button type="submit" class="btn-primary" [disabled]="loading">
+        <button type="submit" class="btn-primary dw-anim-fade-up dw-delay-6 dw-press" [disabled]="loading">
           <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
           <span *ngIf="!loading">Ingresar</span>
+          <ion-icon *ngIf="!loading" name="arrow-forward" class="btn-arrow"></ion-icon>
         </button>
 
-        <div class="divider"><span>o continúa con</span></div>
+        <div class="divider dw-anim-fade dw-delay-7"><span>o continúa con</span></div>
 
-        <button type="button" class="btn-google" (click)="signInGoogle()" [disabled]="loading">
-          <ion-icon name="logo-google"></ion-icon>
-          Google
-        </button>
+        <div class="alt-actions dw-anim-fade-up dw-delay-7">
+          <button type="button" class="btn-ghost dw-press" (click)="signInGoogle()" [disabled]="loading">
+            <ion-icon name="logo-google"></ion-icon>
+            <span>Google</span>
+          </button>
 
-        <button type="button" class="btn-biometric" *ngIf="biometricAvailable" (click)="signInBiometric()" [disabled]="loading">
-          <ion-icon name="finger-print-outline"></ion-icon>
-          Biometría
-        </button>
+          <button type="button" class="btn-ghost btn-ghost--accent dw-press" *ngIf="biometricAvailable"
+                  (click)="signInBiometric()" [disabled]="loading">
+            <ion-icon name="finger-print-outline"></ion-icon>
+            <span>Biometría</span>
+          </button>
+        </div>
       </form>
 
-      <div class="si-footer">
+      <div class="si-footer dw-anim-fade dw-delay-8">
         <span>¿No tienes cuenta?</span>
         <button class="link-btn" (click)="goRegister()">Regístrate</button>
       </div>

@@ -1,4 +1,4 @@
-<ion-header class="mv-header">
+<ion-header class="mv-header" [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="goBack()" class="icon-btn">
@@ -14,43 +14,66 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="mv-content">
-  <div class="mv-summary">
-    <div class="summary-inner">
-      <div class="summary-block">
-        <span class="summary-lbl">Total gastado</span>
-        <span class="summary-amt">${{ (totalSpent$ | async) | number:'1.0-0' }}</span>
-      </div>
-      <div class="summary-icon">
-        <ion-icon name="trending-down-outline"></ion-icon>
-      </div>
-    </div>
+<ion-content class="mv-content" [fullscreen]="true">
+  <div class="mv-bg">
+    <div class="dw-orb dw-orb--purple mv-orb1"></div>
+    <div class="dw-orb dw-orb--pink mv-orb2"></div>
   </div>
 
-  <div class="filter-zone">
-    <div class="filter-card">
-      <div class="filter-field">
-        <ion-icon name="card-outline"></ion-icon>
-        <ion-select placeholder="Todas las tarjetas" interface="action-sheet" (ionChange)="onCardFilter($any($event))">
-          <ion-select-option value="">Todas</ion-select-option>
-          <ion-select-option *ngFor="let c of cards$ | async" [value]="c.id">
-            {{ c.network | uppercase }} •••• {{ c.lastDigits }}
-          </ion-select-option>
-        </ion-select>
+  <div class="mv-stack">
+    <div class="mv-summary dw-anim-fade-down">
+      <div class="summary-inner">
+        <div class="summary-block">
+          <span class="summary-lbl">Total gastado</span>
+          <span class="summary-amt">${{ (totalSpent$ | async) | number:'1.0-0' }}</span>
+          <span class="summary-sub">En este periodo</span>
+        </div>
+        <div class="summary-icon">
+          <div class="icon-ring"></div>
+          <ion-icon name="trending-down"></ion-icon>
+        </div>
       </div>
-      <div class="filter-divider"></div>
-      <div class="filter-field">
-        <ion-icon name="calendar-outline"></ion-icon>
-        <ion-input type="date" placeholder="Filtrar por fecha" (ionChange)="onDateFilter($any($event))"></ion-input>
+
+      <div class="summary-chart">
+        <div class="chart-bar" *ngFor="let h of chartBars; let i = index"
+             [style.height.%]="h"
+             [style.animation-delay]="(0.04 * i) + 's'"></div>
       </div>
     </div>
-  </div>
 
-  <div class="mv-list-wrap">
-    <app-movement-list
-      [items]="(filtered$ | async) ?? []"
-      (holdItem)="openReactions($event)">
-    </app-movement-list>
+    <div class="filter-zone dw-anim-fade-up dw-delay-1">
+      <div class="filter-title">
+        <ion-icon name="filter-outline"></ion-icon>
+        <span>Filtros</span>
+      </div>
+      <div class="filter-card">
+        <div class="filter-field">
+          <ion-icon name="card-outline"></ion-icon>
+          <ion-select placeholder="Todas las tarjetas" interface="action-sheet" (ionChange)="onCardFilter($any($event))">
+            <ion-select-option value="">Todas</ion-select-option>
+            <ion-select-option *ngFor="let c of cards$ | async" [value]="c.id">
+              {{ c.network | uppercase }} •••• {{ c.lastDigits }}
+            </ion-select-option>
+          </ion-select>
+        </div>
+        <div class="filter-divider"></div>
+        <div class="filter-field">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <ion-input type="date" placeholder="Filtrar por fecha" (ionChange)="onDateFilter($any($event))"></ion-input>
+        </div>
+      </div>
+    </div>
+
+    <div class="mv-list-wrap dw-anim-fade-up dw-delay-2">
+      <div class="list-hint">
+        <ion-icon name="hand-left-outline"></ion-icon>
+        <span>Mantén presionado un movimiento para reaccionar</span>
+      </div>
+      <app-movement-list
+        [items]="(filtered$ | async) ?? []"
+        (holdItem)="openReactions($event)">
+      </app-movement-list>
+    </div>
   </div>
 </ion-content>
 
@@ -64,8 +87,11 @@
     <div class="reaction-panel">
       <div class="reaction-handle"></div>
       <p class="reaction-title">¿Cómo fue este gasto?</p>
+      <span class="reaction-sub">Toca una reacción para dejar tu impresión</span>
       <div class="reaction-grid">
-        <button class="reaction-btn" *ngFor="let r of reactions" (click)="applyReaction(r)">
+        <button class="reaction-btn" *ngFor="let r of reactions; let i = index"
+                [style.animation-delay]="(0.04 * i) + 's'"
+                (click)="applyReaction(r)">
           {{ r }}
         </button>
       </div>

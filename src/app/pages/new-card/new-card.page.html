@@ -1,29 +1,35 @@
-<ion-content class="nc-content">
-  <div class="nc-bg"><div class="nc-orb"></div></div>
+<ion-content class="nc-content" [fullscreen]="true">
+  <div class="nc-bg">
+    <div class="dw-orb dw-orb--purple nc-orb1"></div>
+    <div class="dw-orb dw-orb--pink nc-orb2"></div>
+  </div>
 
   <div class="nc-wrapper">
-    <div class="nc-header">
-      <button class="back-btn" (click)="goBack()">
+    <div class="nc-header dw-anim-fade-down">
+      <button class="back-btn dw-press" (click)="goBack()">
         <ion-icon name="arrow-back-outline"></ion-icon>
       </button>
-      <div>
-        <h1>Nueva tarjeta</h1>
+      <div class="nc-title">
+        <span class="eyebrow">registro · tarjeta</span>
+        <h1><span class="dw-gradient-text">Nueva tarjeta</span></h1>
         <p>Agrega una Visa o Mastercard</p>
       </div>
     </div>
 
-    <div class="preview-area">
+    <div class="preview-area dw-anim-fade-up dw-delay-1">
       <app-wallet-card [card]="cardPreview" [showBalance]="false"></app-wallet-card>
     </div>
 
-    <div *ngIf="detectedNetwork !== 'unknown'" class="network-badge">
-      <ion-icon name="checkmark-circle-outline"></ion-icon>
-      {{ detectedNetwork | uppercase }} detectada
+    <div *ngIf="detectedNetwork !== 'unknown'" class="network-badge dw-anim-pop">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      <span>{{ detectedNetwork | uppercase }} detectada</span>
+      <div class="badge-shine"></div>
     </div>
 
-    <div class="nc-form-card">
+    <div class="nc-form-card dw-anim-fade-up dw-delay-2">
       <form [formGroup]="form" (ngSubmit)="submit()">
-        <div class="field-group" [class.invalid]="form.controls.cardHolder.touched && form.controls.cardHolder.invalid">
+        <div class="field-group dw-anim-slide-r dw-delay-2"
+             [class.invalid]="form.controls.cardHolder.touched && form.controls.cardHolder.invalid">
           <label>Titular de la tarjeta</label>
           <div class="field-inner">
             <ion-icon name="person-outline"></ion-icon>
@@ -31,7 +37,8 @@
           </div>
         </div>
 
-        <div class="field-group" [class.invalid]="form.controls.cardNumber.touched && form.controls.cardNumber.invalid">
+        <div class="field-group dw-anim-slide-r dw-delay-3"
+             [class.invalid]="form.controls.cardNumber.touched && form.controls.cardNumber.invalid">
           <label>Número de tarjeta</label>
           <div class="field-inner">
             <ion-icon name="card-outline"></ion-icon>
@@ -40,10 +47,11 @@
           </div>
         </div>
 
-        <div class="nc-row">
+        <div class="nc-row dw-anim-slide-r dw-delay-4">
           <div class="field-group" [class.invalid]="form.controls.expiration.touched && form.controls.expiration.invalid">
             <label>Expiración</label>
             <div class="field-inner">
+              <ion-icon name="calendar-outline"></ion-icon>
               <ion-input type="tel" inputmode="numeric" formControlName="expiration"
                 (ionInput)="onExpiryInput($event)" maxlength="5" placeholder="MM/AA"></ion-input>
             </div>
@@ -53,16 +61,17 @@
           <div class="field-group" [class.invalid]="form.controls.cvv.touched && form.controls.cvv.invalid">
             <label>CVV</label>
             <div class="field-inner">
+              <ion-icon name="shield-outline"></ion-icon>
               <ion-input type="tel" inputmode="numeric" formControlName="cvv" maxlength="4" placeholder="•••"></ion-input>
             </div>
           </div>
         </div>
 
-        <button type="submit" class="btn-primary" [disabled]="loading">
+        <button type="submit" class="btn-primary dw-anim-fade-up dw-delay-5 dw-press" [disabled]="loading">
           <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
           <ng-container *ngIf="!loading">
             <ion-icon name="add-circle-outline"></ion-icon>
-            Guardar tarjeta
+            <span>Guardar tarjeta</span>
           </ng-container>
         </button>
       </form>

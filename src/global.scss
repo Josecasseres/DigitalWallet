@@ -1,12 +1,6 @@
 /*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
+ * DigitalWallet — Global stylesheet
+ * Neon purple glass theme + motion system
  */
 
 /* Core CSS required for Ionic components to work properly */
@@ -25,60 +19,276 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
+/* Ionic Dark Mode */
 @import "@ionic/angular/css/palettes/dark.always.css";
 
-/* DigitalWallet — global tokens */
+/* ======================================================================
+ * Design tokens
+ * ====================================================================== */
 :root {
   --dw-bg: #0d0b18;
-  --dw-surface: rgba(255,255,255,0.04);
-  --dw-border: rgba(255,255,255,0.08);
+  --dw-bg-deep: #070510;
+  --dw-surface: rgba(255, 255, 255, 0.04);
+  --dw-surface-strong: rgba(255, 255, 255, 0.07);
+  --dw-border: rgba(255, 255, 255, 0.08);
+  --dw-border-strong: rgba(255, 255, 255, 0.14);
   --dw-primary: #7c3aed;
   --dw-primary-light: #a78bfa;
+  --dw-primary-glow: rgba(124, 58, 237, 0.55);
+  --dw-accent: #ec4899;
+  --dw-cyan: #22d3ee;
   --dw-text: #f1f0f5;
-  --dw-muted: rgba(255,255,255,0.4);
+  --dw-muted: rgba(255, 255, 255, 0.4);
+  --dw-muted-strong: rgba(255, 255, 255, 0.6);
   --dw-danger: #f87171;
   --dw-success: #34d399;
+  --dw-warning: #fbbf24;
+  --dw-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 45%, #ec4899 100%);
+  --dw-gradient-cool: linear-gradient(135deg, #7c3aed 0%, #6366f1 50%, #22d3ee 100%);
+  --dw-shadow-soft: 0 10px 30px -10px rgba(124, 58, 237, 0.35);
+  --dw-shadow-float: 0 20px 50px -20px rgba(124, 58, 237, 0.55);
 }
 
-ion-app { background: var(--dw-bg); }
+/* ======================================================================
+ * Base
+ * ====================================================================== */
+ion-app,
+ion-content {
+  background: var(--dw-bg);
+}
 
-/* Toast overrides */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ======================================================================
+ * Keyframes
+ * ====================================================================== */
+@keyframes dw-fade-up {
+  from { opacity: 0; transform: translate3d(0, 20px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes dw-fade-down {
+  from { opacity: 0; transform: translate3d(0, -16px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes dw-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes dw-scale-pop {
+  0%   { opacity: 0; transform: scale(0.82); }
+  70%  { opacity: 1; transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+@keyframes dw-slide-right {
+  from { opacity: 0; transform: translate3d(-24px, 0, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes dw-slide-left {
+  from { opacity: 0; transform: translate3d(24px, 0, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes dw-float-orb {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33%      { transform: translate3d(30px, -40px, 0) scale(1.08); }
+  66%      { transform: translate3d(-20px, 20px, 0) scale(0.94); }
+}
+
+@keyframes dw-pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--dw-primary-glow); }
+  50%      { box-shadow: 0 0 0 14px rgba(124, 58, 237, 0); }
+}
+
+@keyframes dw-pulse-scale {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.06); }
+}
+
+@keyframes dw-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes dw-gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+@keyframes dw-ripple {
+  0%   { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+@keyframes dw-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes dw-bounce-in {
+  0%   { opacity: 0; transform: translate3d(0, -40px, 0) scale(0.7); }
+  55%  { opacity: 1; transform: translate3d(0, 6px, 0) scale(1.02); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes dw-skeleton {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@keyframes dw-blink {
+  0%, 60%, 100% { opacity: 1; }
+  30%           { opacity: 0.35; }
+}
+
+@keyframes dw-card-flip {
+  0%   { transform: perspective(800px) rotateY(90deg); opacity: 0; }
+  100% { transform: perspective(800px) rotateY(0deg); opacity: 1; }
+}
+
+/* ======================================================================
+ * Motion utility classes
+ * ====================================================================== */
+.dw-anim-fade-up   { animation: dw-fade-up .55s cubic-bezier(.2,.8,.2,1) both; }
+.dw-anim-fade-down { animation: dw-fade-down .55s cubic-bezier(.2,.8,.2,1) both; }
+.dw-anim-fade      { animation: dw-fade-in .45s ease-out both; }
+.dw-anim-pop       { animation: dw-scale-pop .45s cubic-bezier(.2,.8,.2,1.2) both; }
+.dw-anim-slide-r   { animation: dw-slide-right .5s cubic-bezier(.2,.8,.2,1) both; }
+.dw-anim-slide-l   { animation: dw-slide-left .5s cubic-bezier(.2,.8,.2,1) both; }
+.dw-anim-bounce    { animation: dw-bounce-in .7s cubic-bezier(.2,.8,.2,1.2) both; }
+.dw-anim-flip      { animation: dw-card-flip .7s ease-out both; }
+
+.dw-delay-1 { animation-delay: .08s; }
+.dw-delay-2 { animation-delay: .16s; }
+.dw-delay-3 { animation-delay: .24s; }
+.dw-delay-4 { animation-delay: .32s; }
+.dw-delay-5 { animation-delay: .40s; }
+.dw-delay-6 { animation-delay: .48s; }
+.dw-delay-7 { animation-delay: .56s; }
+.dw-delay-8 { animation-delay: .64s; }
+
+.dw-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  opacity: 0.55;
+  animation: dw-float-orb 14s ease-in-out infinite;
+}
+
+.dw-orb--purple { background: radial-gradient(circle, rgba(124,58,237,.9) 0%, rgba(124,58,237,0) 70%); }
+.dw-orb--pink   { background: radial-gradient(circle, rgba(236,72,153,.7) 0%, rgba(236,72,153,0) 70%); }
+.dw-orb--cyan   { background: radial-gradient(circle, rgba(34,211,238,.55) 0%, rgba(34,211,238,0) 70%); }
+
+.dw-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.14) 50%,
+    rgba(255,255,255,0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: dw-shimmer 2.4s linear infinite;
+}
+
+.dw-pulse { animation: dw-pulse-glow 2.4s ease-in-out infinite; }
+
+.dw-press {
+  transition: transform .18s ease, box-shadow .18s ease;
+  &:active { transform: scale(.97); }
+}
+
+/* ======================================================================
+ * Reusable glass surface
+ * ====================================================================== */
+.dw-glass {
+  background: var(--dw-surface);
+  border: 1px solid var(--dw-border);
+  border-radius: 20px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.dw-glass-strong {
+  background: var(--dw-surface-strong);
+  border: 1px solid var(--dw-border-strong);
+  border-radius: 22px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.dw-gradient-text {
+  background: var(--dw-gradient);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: dw-gradient-shift 6s ease-in-out infinite;
+}
+
+/* ======================================================================
+ * Toast overrides
+ * ====================================================================== */
 .dw-toast {
   --background: #1e1b30;
   --color: #f1f0f5;
   --border-radius: 14px;
+  --box-shadow: 0 18px 40px -18px rgba(0,0,0,.6);
   font-size: 14px;
+  font-weight: 500;
 }
 
-/* Alert overrides */
+/* ======================================================================
+ * Alert overrides
+ * ====================================================================== */
 .dw-alert .alert-wrapper,
 .dw-alert-danger .alert-wrapper {
-  background: #1e1b30 !important;
-  border: 1px solid rgba(255,255,255,0.1) !important;
-  border-radius: 20px !important;
-  .alert-title { color: #f1f0f5 !important; }
-  .alert-message { color: rgba(255,255,255,0.6) !important; }
-  .alert-button { color: var(--dw-primary-light) !important; font-weight: 600; }
+  background: linear-gradient(160deg, #231f3a 0%, #16132a 100%) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,.75) !important;
+  animation: dw-scale-pop .35s cubic-bezier(.2,.8,.2,1.1) both;
+
+  .alert-title   { color: #f1f0f5 !important; font-weight: 700; letter-spacing: .2px; }
+  .alert-message { color: rgba(255,255,255,0.7) !important; }
+  .alert-button  { color: var(--dw-primary-light) !important; font-weight: 600; }
 }
 
 .dw-alert-danger .alert-button:last-child { color: var(--dw-danger) !important; }
 
-/* Spinner overlay */
+/* ======================================================================
+ * Spinner overlay
+ * ====================================================================== */
 .dw-spinner .loading-wrapper {
-  background: #1e1b30 !important;
-  border-radius: 16px !important;
-  color: rgba(255,255,255,0.7) !important;
+  background: linear-gradient(160deg, #1e1b30, #120f22) !important;
+  border-radius: 18px !important;
+  color: rgba(255,255,255,0.75) !important;
+  box-shadow: 0 30px 60px -25px rgba(0,0,0,.75) !important;
+  animation: dw-fade-in .3s ease-out both;
 }
 
 /* Reaction sheet */
 .reaction-sheet::part(content) {
-  background: #1a1730;
-  border-radius: 24px 24px 0 0;
+  background: linear-gradient(160deg, #1f1a38 0%, #120f22 100%);
+  border-radius: 28px 28px 0 0;
+  box-shadow: 0 -20px 60px -20px rgba(0,0,0,.6);
+}
+
+/* ======================================================================
+ * Reduced motion
+ * ====================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

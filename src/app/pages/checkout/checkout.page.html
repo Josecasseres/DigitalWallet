@@ -1,31 +1,48 @@
-<ion-content class="co-content">
-  <div class="co-bg"><div class="co-orb"></div></div>
+<ion-content class="co-content" [fullscreen]="true">
+  <div class="co-bg">
+    <div class="dw-orb dw-orb--purple co-orb1"></div>
+    <div class="dw-orb dw-orb--cyan co-orb2"></div>
+  </div>
 
   <div class="co-wrapper">
-    <div class="co-header">
-      <button class="back-btn" (click)="goBack()">
+    <div class="co-header dw-anim-fade-down">
+      <button class="back-btn dw-press" (click)="goBack()">
         <ion-icon name="arrow-back-outline"></ion-icon>
       </button>
-      <div>
-        <h1>Realizar pago</h1>
+      <div class="co-title">
+        <span class="eyebrow">acción · pago</span>
+        <h1><span class="dw-gradient-text">Realizar pago</span></h1>
         <p>Selecciona tarjeta y destino</p>
       </div>
     </div>
 
     <ng-container *ngIf="cards$ | async as cards">
-      <div *ngIf="cards.length === 0" class="co-empty">
-        <div class="empty-icon"><ion-icon name="card-outline"></ion-icon></div>
+      <div *ngIf="cards.length === 0" class="co-empty dw-anim-pop">
+        <div class="empty-icon">
+          <ion-icon name="card-outline"></ion-icon>
+          <div class="empty-ring"></div>
+        </div>
         <p>No tienes tarjetas registradas</p>
-        <button class="btn-outline" routerLink="/new-card">Agregar tarjeta</button>
+        <span class="empty-sub">Necesitas una tarjeta para realizar pagos</span>
+        <button class="btn-outline dw-press" routerLink="/new-card">
+          <ion-icon name="add-circle-outline"></ion-icon>
+          Agregar tarjeta
+        </button>
       </div>
 
       <ng-container *ngIf="cards.length > 0">
-        <div class="preview-slot" *ngIf="chosenCard">
+        <div class="preview-slot dw-anim-fade-up" *ngIf="chosenCard">
           <app-wallet-card [card]="chosenCard" [showBalance]="true"></app-wallet-card>
         </div>
 
-        <form [formGroup]="form" (ngSubmit)="submit()" class="co-form">
-          <div class="field-group">
+        <div *ngIf="form.controls.chargedAmount.value > 0" class="amount-highlight dw-anim-pop">
+          <span class="amt-label">Monto a pagar</span>
+          <span class="amt-value">${{ form.controls.chargedAmount.value | number:'1.0-0' }}</span>
+          <span class="amt-currency">COP</span>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" class="co-form dw-anim-fade-up dw-delay-2">
+          <div class="field-group dw-anim-slide-r dw-delay-2">
             <label>Tarjeta</label>
             <div class="field-inner select-wrap">
               <ion-icon name="card-outline"></ion-icon>
@@ -37,7 +54,8 @@
             </div>
           </div>
 
-          <div class="field-group" [class.invalid]="form.controls.storeName.touched && form.controls.storeName.invalid">
+          <div class="field-group dw-anim-slide-r dw-delay-3"
+               [class.invalid]="form.controls.storeName.touched && form.controls.storeName.invalid">
             <label>Comercio</label>
             <div class="field-inner">
               <ion-icon name="storefront-outline"></ion-icon>
@@ -45,7 +63,8 @@
             </div>
           </div>
 
-          <div class="field-group" [class.invalid]="form.controls.chargedAmount.touched && form.controls.chargedAmount.invalid">
+          <div class="field-group dw-anim-slide-r dw-delay-4"
+               [class.invalid]="form.controls.chargedAmount.touched && form.controls.chargedAmount.invalid">
             <label>Monto (COP)</label>
             <div class="field-inner">
               <ion-icon name="cash-outline"></ion-icon>
@@ -54,14 +73,15 @@
             <span class="err-hint" *ngIf="form.controls.chargedAmount.touched && form.controls.chargedAmount.invalid">Mínimo $1,000</span>
           </div>
 
-          <button type="button" class="btn-simulate" (click)="randomize()">
+          <button type="button" class="btn-simulate dw-anim-fade dw-delay-5 dw-press" (click)="randomize()">
             <ion-icon name="shuffle-outline"></ion-icon>
-            Simular comercio aleatorio
+            <span>Simular comercio aleatorio</span>
           </button>
 
-          <button type="submit" class="btn-pay" [disabled]="form.invalid">
-            <ion-icon name="arrow-up-circle-outline"></ion-icon>
-            Pagar ahora
+          <button type="submit" class="btn-pay dw-anim-fade-up dw-delay-6 dw-press" [disabled]="form.invalid">
+            <div class="btn-pay-glow"></div>
+            <ion-icon name="arrow-up-circle"></ion-icon>
+            <span>Pagar ahora</span>
           </button>
         </form>
       </ng-container>

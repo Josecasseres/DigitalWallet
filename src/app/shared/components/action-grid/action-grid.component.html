@@ -1,9 +1,11 @@
 <div class="ag-wrap">
   <button
     class="ag-btn"
-    *ngFor="let a of actions; trackBy: trackByKey"
+    *ngFor="let a of actions; let i = index; trackBy: trackByKey"
+    [style.animation-delay]="(0.08 * i) + 's'"
     (click)="actionSelected.emit(a.key)">
     <div class="ag-icon-wrap">
+      <div class="ag-shine"></div>
       <ion-icon [name]="a.icon"></ion-icon>
     </div>
     <span class="ag-label">{{ a.label }}</span>

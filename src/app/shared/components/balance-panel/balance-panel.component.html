@@ -1,23 +1,42 @@
 <div class="bp-container">
+  <div class="bp-shine"></div>
+  <div class="bp-glow-1"></div>
+  <div class="bp-glow-2"></div>
+
   <div class="bp-inner">
-    <p class="bp-welcome">{{ welcome }}</p>
-    <h2 class="bp-name">{{ userName }}</h2>
+    <div class="bp-top">
+      <div>
+        <p class="bp-welcome">{{ welcome }}</p>
+        <h2 class="bp-name">{{ userName }}</h2>
+      </div>
+      <div class="bp-chip">
+        <ion-icon name="sparkles-outline"></ion-icon>
+        <span>Premium</span>
+      </div>
+    </div>
+
     <div class="bp-row">
       <div class="bp-data">
-        <small class="bp-lbl">Balance total</small>
+        <small class="bp-lbl">
+          <span class="bp-lbl-dot"></span>
+          Balance total
+        </small>
         <h1 class="bp-amount">
           <ng-container *ngIf="visible; else masked">
-            ${{ (totalBalance ?? 0) | number:'1.0-0' }}
+            <span class="bp-currency">$</span>{{ (totalBalance ?? 0) | number:'1.0-0' }}
           </ng-container>
           <ng-template #masked>••••••••</ng-template>
         </h1>
       </div>
-      <button class="bp-toggle" (click)="toggleVisibility.emit()">
+      <button class="bp-toggle dw-press" (click)="toggleVisibility.emit()">
         <ion-icon [name]="visible ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
       </button>
     </div>
   </div>
+
   <div class="bp-dots">
-    <span></span><span></span><span></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
   </div>
 </div>

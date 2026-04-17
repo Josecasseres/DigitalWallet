@@ -1,23 +1,37 @@
-<ion-content class="su-content">
+<ion-content class="su-content" [fullscreen]="true">
   <div class="su-bg">
-    <div class="su-orb su-orb1"></div>
-    <div class="su-orb su-orb2"></div>
+    <div class="dw-orb dw-orb--purple su-orb1"></div>
+    <div class="dw-orb dw-orb--pink su-orb2"></div>
+    <div class="su-grid"></div>
   </div>
 
   <div class="su-wrapper">
-    <div class="su-header">
-      <button class="back-btn" (click)="goLogin()">
+    <div class="su-header dw-anim-fade-down">
+      <button class="back-btn dw-press" (click)="goLogin()">
         <ion-icon name="arrow-back-outline"></ion-icon>
       </button>
-      <div>
-        <h1>Crear cuenta</h1>
+      <div class="su-title">
+        <span class="su-eyebrow">paso 01 · registro</span>
+        <h1><span class="dw-gradient-text">Crear cuenta</span></h1>
         <p>Completa tu información personal</p>
       </div>
     </div>
 
-    <div class="su-card">
+    <div class="su-progress dw-anim-fade dw-delay-1">
+      <span class="dot active"></span>
+      <span class="dash"></span>
+      <span class="dot active"></span>
+      <span class="dash"></span>
+      <span class="dot"></span>
+    </div>
+
+    <div class="su-card dw-anim-fade-up dw-delay-2">
       <form [formGroup]="form" (ngSubmit)="submit()">
-        <div class="su-row">
+        <h3 class="su-section dw-anim-slide-r dw-delay-2">
+          <ion-icon name="person-outline"></ion-icon> Información personal
+        </h3>
+
+        <div class="su-row dw-anim-fade-up dw-delay-3">
           <div class="field-group" [class.invalid]="form.controls.firstName.touched && form.controls.firstName.invalid">
             <label>Nombre</label>
             <div class="field-inner">
@@ -32,16 +46,18 @@
           </div>
         </div>
 
-        <div class="field-group">
+        <div class="field-group dw-anim-fade-up dw-delay-3">
           <label>Tipo de documento</label>
           <div class="field-inner select-wrap">
+            <ion-icon name="id-card-outline"></ion-icon>
             <ion-select formControlName="idType" interface="action-sheet" placeholder="Selecciona">
               <ion-select-option *ngFor="let t of idTypes" [value]="t.value">{{ t.label }}</ion-select-option>
             </ion-select>
           </div>
         </div>
 
-        <div class="field-group" [class.invalid]="form.controls.idNumber.touched && form.controls.idNumber.invalid">
+        <div class="field-group dw-anim-fade-up dw-delay-4"
+             [class.invalid]="form.controls.idNumber.touched && form.controls.idNumber.invalid">
           <label>Número de documento</label>
           <div class="field-inner">
             <ion-icon name="card-outline"></ion-icon>
@@ -50,7 +66,7 @@
           <span class="err-hint" *ngIf="form.controls.idNumber.touched && form.controls.idNumber.invalid">Formato inválido (4–15 dígitos)</span>
         </div>
 
-        <div class="field-group">
+        <div class="field-group dw-anim-fade-up dw-delay-4">
           <label>País</label>
           <div class="field-inner">
             <ion-icon name="earth-outline"></ion-icon>
@@ -58,9 +74,12 @@
           </div>
         </div>
 
-        <div class="su-divider"></div>
+        <h3 class="su-section dw-anim-slide-r dw-delay-5">
+          <ion-icon name="shield-checkmark-outline"></ion-icon> Acceso seguro
+        </h3>
 
-        <div class="field-group" [class.invalid]="form.controls.email.touched && form.controls.email.invalid">
+        <div class="field-group dw-anim-fade-up dw-delay-5"
+             [class.invalid]="form.controls.email.touched && form.controls.email.invalid">
           <label>Correo electrónico</label>
           <div class="field-inner">
             <ion-icon name="mail-outline"></ion-icon>
@@ -69,23 +88,27 @@
           <span class="err-hint" *ngIf="form.controls.email.touched && form.controls.email.invalid">Email inválido</span>
         </div>
 
-        <div class="field-group" [class.invalid]="form.controls.password.touched && form.controls.password.invalid">
+        <div class="field-group dw-anim-fade-up dw-delay-6"
+             [class.invalid]="form.controls.password.touched && form.controls.password.invalid">
           <label>Contraseña</label>
           <div class="field-inner">
             <ion-icon name="lock-closed-outline"></ion-icon>
-            <ion-input [type]="showPass ? 'text' : 'password'" formControlName="password" placeholder="Mín. 6 caracteres" autocomplete="new-password"></ion-input>
-            <ion-icon [name]="showPass ? 'eye-off-outline' : 'eye-outline'" class="pass-toggle" (click)="showPass = !showPass"></ion-icon>
+            <ion-input [type]="showPass ? 'text' : 'password'" formControlName="password"
+                       placeholder="Mín. 6 caracteres" autocomplete="new-password"></ion-input>
+            <ion-icon [name]="showPass ? 'eye-off-outline' : 'eye-outline'"
+                      class="pass-toggle" (click)="showPass = !showPass"></ion-icon>
           </div>
           <span class="err-hint" *ngIf="form.controls.password.touched && form.controls.password.invalid">Mínimo 6 caracteres</span>
         </div>
 
-        <button type="submit" class="btn-primary" [disabled]="loading">
+        <button type="submit" class="btn-primary dw-anim-fade-up dw-delay-7 dw-press" [disabled]="loading">
           <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
           <span *ngIf="!loading">Crear mi cuenta</span>
+          <ion-icon *ngIf="!loading" name="sparkles" class="btn-arrow"></ion-icon>
         </button>
       </form>
 
-      <div class="su-footer">
+      <div class="su-footer dw-anim-fade dw-delay-8">
         <span>¿Ya tienes cuenta?</span>
         <button class="link-btn" (click)="goLogin()">Inicia sesión</button>
       </div>

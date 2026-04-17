@@ -1,26 +1,36 @@
 <div class="mv-list" *ngIf="items.length > 0; else noItems">
   <div class="mv-row"
-    *ngFor="let item of items; trackBy: trackById"
+    *ngFor="let item of items; let i = index; trackBy: trackById"
+    [style.animation-delay]="(0.05 * i) + 's'"
     (mousedown)="startHold(item)" (mouseup)="endHold()" (mouseleave)="endHold()"
     (touchstart)="startHold(item)" (touchend)="endHold()" (touchcancel)="endHold()">
-    <div class="mv-icon">
-      <span *ngIf="item.reaction; else defaultIcon">{{ item.reaction }}</span>
+    <div class="mv-icon" [class.has-reaction]="item.reaction">
+      <span *ngIf="item.reaction; else defaultIcon" class="emoji-bounce">{{ item.reaction }}</span>
       <ng-template #defaultIcon>
         <ion-icon name="receipt-outline"></ion-icon>
       </ng-template>
     </div>
     <div class="mv-info">
       <p class="store-name">{{ item.storeName }}</p>
-      <small class="meta">•••• {{ item.sourceLast4 }} · {{ item.timestamp | date:'dd MMM, HH:mm' }}</small>
+      <small class="meta">
+        <span class="meta-chip">•••• {{ item.sourceLast4 }}</span>
+        <span class="meta-dot">·</span>
+        {{ item.timestamp | date:'dd MMM, HH:mm' }}
+      </small>
     </div>
     <div class="mv-amount">
-      <span>-${{ item.chargedAmount | number:'1.0-0' }}</span>
+      <span class="amt">-${{ item.chargedAmount | number:'1.0-0' }}</span>
+      <span class="tag">COP</span>
     </div>
   </div>
 </div>
 <ng-template #noItems>
   <div class="mv-empty">
-    <ion-icon name="cloud-offline-outline"></ion-icon>
+    <div class="empty-icon-wrap">
+      <ion-icon name="cloud-offline-outline"></ion-icon>
+      <div class="empty-ring"></div>
+    </div>
     <p>Sin movimientos</p>
+    <span class="empty-sub">Tus pagos aparecerán aquí</span>
   </div>
 </ng-template>

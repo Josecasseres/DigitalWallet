@@ -24,6 +24,7 @@ export class MovementsPage {
 
   reactions = REACTION_SET;
   activeItem: Movement | null = null;
+  chartBars: number[] = Array.from({ length: 14 }, () => 25 + Math.random() * 70);
 
   private cardFilter$ = new BehaviorSubject<string>('');
   private dateFilter$ = new BehaviorSubject<string>('');
