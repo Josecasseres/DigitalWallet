@@ -13,6 +13,9 @@
                   [class.active]="biometricActive">
         <ion-icon slot="icon-only" [name]="biometricActive ? 'finger-print' : 'finger-print-outline'"></ion-icon>
       </ion-button>
+      <ion-button (click)="theme.toggle()" class="icon-btn theme-btn">
+        <ion-icon slot="icon-only" [name]="theme.isDark ? 'sunny-outline' : 'moon-outline'"></ion-icon>
+      </ion-button>
       <ion-button (click)="logout()" class="icon-btn">
         <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
       </ion-button>
@@ -46,6 +49,7 @@
       <app-action-grid [actions]="gridActions" (actionSelected)="onActionSelected($event)"></app-action-grid>
     </div>
 
+    <!-- ══════ CARDS SECTION ══════ -->
     <div class="db-section dw-anim-fade-up dw-delay-3">
       <div class="db-section-header">
         <h3>
@@ -71,19 +75,134 @@
           </button>
         </div>
 
-        <div class="cards-scroll" *ngIf="cards.length > 0">
-          <div class="card-slot dw-anim-fade-up"
-            *ngFor="let c of cards; let i = index; trackBy: trackById"
-            [style.animation-delay]="(0.1 * i) + 's'"
-            (click)="confirmRemoveCard(c)">
-            <app-wallet-card [card]="c" [showBalance]="showBalance"></app-wallet-card>
+        <ng-container *ngIf="cards.length > 0">
+          <div class="cards-scroll">
+            <div class="card-slot dw-anim-fade-up"
+              *ngFor="let c of cards; let i = index; trackBy: trackById"
+              [style.animation-delay]="(0.1 * i) + 's'"
+              [class.is-selected]="selectedCard?.lastDigits === c.lastDigits"
+              (click)="selectCard(c)">
+              <app-wallet-card [card]="c" [showBalance]="showBalance"></app-wallet-card>
+            </div>
           </div>
-        </div>
+
+          <!-- Dots indicator -->
+          <div class="dots-row" *ngIf="cards.length > 1">
+            <span class="dot" *ngFor="let c of cards"
+                  [class.active]="selectedCard?.lastDigits === c.lastDigits"></span>
+          </div>
+
+          <!-- Actions for selected card -->
+          <div class="card-ctas" *ngIf="selectedCard">
+            <button class="cta-btn dw-press" (click)="openEditModal(selectedCard)">
+              <div class="cta-icon"><ion-icon name="create-outline"></ion-icon></div>
+              <span>Editar</span>
+            </button>
+            <button class="cta-btn dw-press" (click)="openRechargeModal(selectedCard)">
+              <div class="cta-icon"><ion-icon name="flash-outline"></ion-icon></div>
+              <span>Recargar</span>
+            </button>
+            <button class="cta-btn dw-press" (click)="onActionSelected('add')">
+              <div class="cta-icon"><ion-icon name="add-outline"></ion-icon></div>
+              <span>Nueva</span>
+            </button>
+            <button class="cta-btn cta-del dw-press" (click)="confirmRemoveCard(selectedCard)">
+              <div class="cta-icon"><ion-icon name="trash-outline"></ion-icon></div>
+              <span>Eliminar</span>
+            </button>
+          </div>
+        </ng-container>
       </ng-container>
 
       <ng-template #loadingState>
         <app-content-placeholder variant="card" [count]="2"></app-content-placeholder>
       </ng-template>
     </div>
+
+    <!-- ══════ RECENT MOVEMENTS ══════ -->
+    <div class="db-section dw-anim-fade-up dw-delay-4">
+      <div class="db-section-header">
+        <h3>
+          <span class="section-index">04</span>
+          Últimos movimientos
+        </h3>
+        <button class="see-all-btn dw-press" (click)="onActionSelected('history')">
+          Ver todos <ion-icon name="chevron-forward-outline"></ion-icon>
+        </button>
+      </div>
+
+      <ng-container *ngIf="recentMovements$ | async as movements; else movementsLoading">
+        <div *ngIf="movements.length === 0" class="db-empty-sm">
+          <ion-icon name="receipt-outline"></ion-icon>
+          <span>Sin movimientos recientes</span>
+        </div>
+        <app-movement-list
+          *ngIf="movements.length > 0"
+          [items]="movements">
+        </app-movement-list>
+      </ng-container>
+
+      <ng-template #movementsLoading>
+        <app-content-placeholder variant="row" [count]="3"></app-content-placeholder>
+      </ng-template>
+    </div>
+
+    <div class="db-bottom-pad"></div>
   </div>
 </ion-content>
+
+<!-- ═════ MODAL: Editar Titular ═════ -->
+<ion-modal
+  [isOpen]="!!editingCard"
+  (didDismiss)="closeEditModal()"
+  [initialBreakpoint]="0.45"
+  [breakpoints]="[0, 0.45]">
+  <ng-template>
+    <div class="action-sheet-modal" *ngIf="editingCard">
+      <div class="sheet-handle"></div>
+      <h3>Editar •••• {{ editingCard.lastDigits }}</h3>
+      <div class="modal-field">
+        <label>Nombre del titular</label>
+        <ion-input
+          [(ngModel)]="editCardHolder"
+          autocapitalize="characters"
+          placeholder="NOMBRE APELLIDO">
+        </ion-input>
+      </div>
+      <button class="btn-primary dw-press" (click)="saveEdit()">
+        <ion-icon name="checkmark-outline"></ion-icon>
+        Guardar cambios
+      </button>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- ═════ MODAL: Recargar Saldo ═════ -->
+<ion-modal
+  [isOpen]="!!rechargingCard"
+  (didDismiss)="closeRechargeModal()"
+  [initialBreakpoint]="0.55"
+  [breakpoints]="[0, 0.55]">
+  <ng-template>
+    <div class="action-sheet-modal" *ngIf="rechargingCard">
+      <div class="sheet-handle"></div>
+      <h3>Recargar •••• {{ rechargingCard.lastDigits }}</h3>
+      <p class="modal-balance">
+        Saldo actual: <strong>${{ rechargingCard.availableBalance | number:'1.0-0' }}</strong>
+      </p>
+      <div class="modal-field">
+        <label>Monto a recargar (COP)</label>
+        <ion-input type="number" [(ngModel)]="rechargeAmount" placeholder="50000"></ion-input>
+      </div>
+      <div class="quick-amounts">
+        <button class="quick-btn dw-press" *ngFor="let a of quickAmounts" (click)="rechargeAmount = a">
+          ${{ a | number:'1.0-0' }}
+        </button>
+      </div>
+      <button class="btn-primary dw-press" (click)="saveRecharge()" [disabled]="rechargeAmount <= 0">
+        <ion-icon name="flash-outline"></ion-icon>
+        Recargar
+      </button>
+    </div>
+  </ng-template>
+</ion-modal>

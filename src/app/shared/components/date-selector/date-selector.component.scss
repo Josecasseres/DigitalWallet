@@ -1,0 +1,9 @@
+.date-picker-wrapper {
+  width: 100%;
+
+  ion-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    --background: transparent;
+  }
+}

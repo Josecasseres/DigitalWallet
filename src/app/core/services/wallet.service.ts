@@ -8,6 +8,7 @@ import {
   doc,
   orderBy,
   query,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { Observable, of, switchMap } from 'rxjs';
 import { AccountService } from './account.service';
@@ -77,6 +78,12 @@ export class WalletService {
     };
     const ref = await addDoc(collection(this.firestore, `accounts/${user.uid}/cards`), card);
     return ref.id;
+  }
+
+  async updateCard(cardId: string, data: Partial<WalletCard>): Promise<void> {
+    const user = this.account.currentUser;
+    if (!user) throw new Error('Sesión no activa');
+    await updateDoc(doc(this.firestore, `accounts/${user.uid}/cards/${cardId}`), data as Record<string, unknown>);
   }
 
   async removeCard(cardId: string): Promise<void> {

@@ -1,3 +1,5 @@
+export type MovementType = 'payment' | 'deposit';
+
 export interface Movement {
   id?: string;
   sourceCardId: string;
@@ -5,5 +7,6 @@ export interface Movement {
   storeName: string;
   chargedAmount: number;
   timestamp: number;
+  type?: MovementType;
   reaction?: string;
 }

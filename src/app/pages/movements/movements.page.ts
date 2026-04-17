@@ -8,7 +8,15 @@ import { WalletCard } from '../../core/models/wallet-card.model';
 import { Movement } from '../../core/models/movement.model';
 import { Router } from '@angular/router';
 
-const REACTION_SET = ['🍔', '🛒', '✈️', '🎬', '☕', '💸', '🎁', '⛽', '🏠', '❤️', '🎮', '🍕'];
+const REACTION_SET = [
+  '🍔', '🍕', '🌮', '🍜', '🥗', '☕', '🧋', '🍺',
+  '🛒', '🛍️', '👗', '👟', '💄', '🧴', '📦', '🏷️',
+  '✈️', '🚗', '🚌', '⛽', '🚕', '🛵', '🚂', '🚢',
+  '🎬', '🎮', '🎵', '🎭', '📚', '🎲', '🎯', '🎪',
+  '🏠', '💡', '🔧', '📱', '💻', '🖨️', '📺', '🔑',
+  '❤️', '🎁', '🎂', '🌸', '🥳', '💍', '🐾', '🌴',
+  '💸', '💰', '🏦', '📈', '💳', '🧾', '💊', '🏥',
+];
 
 @Component({
   selector: 'app-movements',
@@ -47,11 +55,29 @@ export class MovementsPage {
   );
 
   totalSpent$: Observable<number> = this.filtered$.pipe(
-    map((items) => items.reduce((acc, m) => acc + m.chargedAmount, 0))
+    map((items) => items
+      .filter((m) => !m.type || m.type === 'payment')
+      .reduce((acc, m) => acc + m.chargedAmount, 0))
   );
 
+  totalIncome$: Observable<number> = this.filtered$.pipe(
+    map((items) => items
+      .filter((m) => m.type === 'deposit')
+      .reduce((acc, m) => acc + m.chargedAmount, 0))
+  );
+
+  netBalance$: Observable<number> = this.filtered$.pipe(
+    map((items) => {
+      const income = items.filter((m) => m.type === 'deposit').reduce((a, m) => a + m.chargedAmount, 0);
+      const spent = items.filter((m) => !m.type || m.type === 'payment').reduce((a, m) => a + m.chargedAmount, 0);
+      return income - spent;
+    })
+  );
+
+  isPositive$: Observable<boolean> = this.netBalance$.pipe(map((n) => n >= 0));
+
   onCardFilter(ev: CustomEvent): void { this.cardFilter$.next((ev.detail.value as string) ?? ''); }
-  onDateFilter(ev: CustomEvent): void { this.dateFilter$.next((ev.detail.value as string) ?? ''); }
+  onDateFilter(dateIso: string): void { this.dateFilter$.next(dateIso ?? ''); }
   resetFilters(): void { this.cardFilter$.next(''); this.dateFilter$.next(''); }
 
   openReactions(item: Movement): void { this.activeItem = item; }

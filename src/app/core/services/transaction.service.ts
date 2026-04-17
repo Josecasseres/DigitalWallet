@@ -71,6 +71,21 @@ export class TransactionService {
     return ref.id;
   }
 
+  async recordDeposit(card: WalletCard, concept: string, amount: number): Promise<string> {
+    const user = this.account.currentUser;
+    if (!user || !card.id) throw new Error('Sesión inválida');
+    const movement: Omit<Movement, 'id'> = {
+      sourceCardId: card.id,
+      sourceLast4: card.lastDigits,
+      storeName: concept,
+      chargedAmount: amount,
+      timestamp: Date.now(),
+      type: 'deposit',
+    };
+    const ref = await addDoc(collection(this.firestore, `accounts/${user.uid}/movements`), movement);
+    return ref.id;
+  }
+
   async applyReaction(movementId: string, reaction: string): Promise<void> {
     const user = this.account.currentUser;
     if (!user) throw new Error('Sesión no activa');

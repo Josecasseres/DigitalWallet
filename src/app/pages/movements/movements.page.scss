@@ -137,7 +137,11 @@
 }
 
 .reaction-grid {
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;
+  max-height: 260px; overflow-y: auto;
+  padding-bottom: 4px;
+  &::-webkit-scrollbar { width: 3px; }
+  &::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.4); border-radius: 4px; }
 }
 
 .reaction-btn {
@@ -152,4 +156,55 @@
 
   &:hover { background: rgba(124,58,237,0.2); border-color: rgba(124,58,237,0.4); }
   &:active { background: rgba(124,58,237,0.3); transform: scale(0.88); }
+}
+
+// Dynamic net balance colors
+.summary-amt.net-positive {
+  background: linear-gradient(135deg, #fff 0%, #6ee7b7 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.summary-amt.net-negative {
+  background: linear-gradient(135deg, #fff 0%, #fca5a5 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+// Positive icon variant
+.summary-icon.positive-icon {
+  background: rgba(52,211,153,0.18);
+  border-color: rgba(52,211,153,0.35);
+  ion-icon { color: #34d399; }
+  .icon-ring { border-color: rgba(52,211,153,0.3); }
+}
+
+// Income / expense breakdown row
+.summary-breakdown {
+  display: flex; align-items: center; gap: 0;
+  margin-top: 14px; position: relative; z-index: 1;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px; overflow: hidden;
+
+  .breakdown-item {
+    flex: 1; display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px;
+
+    ion-icon { font-size: 20px; flex-shrink: 0; }
+
+    div { display: flex; flex-direction: column; }
+
+    .bd-lbl {
+      font-size: 10px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; opacity: 0.5; margin-bottom: 2px;
+    }
+    .bd-val { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
+
+    &.income { ion-icon { color: #34d399; } .bd-val { color: #34d399; } }
+    &.expense { ion-icon { color: #f87171; } .bd-val { color: #f87171; } }
+  }
+
+  .breakdown-divider {
+    width: 1px; height: 36px;
+    background: rgba(255,255,255,0.1);
+    flex-shrink: 0;
+  }
 }

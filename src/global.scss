@@ -19,8 +19,8 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/* Ionic Dark Mode */
-@import "@ionic/angular/css/palettes/dark.always.css";
+/* Ionic Dark Mode — class-based, toggled by ThemeService */
+@import "@ionic/angular/css/palettes/dark.class.css";
 
 /* ======================================================================
  * Design tokens
@@ -290,5 +290,298 @@ ion-content {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+/* ======================================================================
+ * LIGHT MODE — body.dw-light overrides
+ * ====================================================================== */
+body.dw-light {
+  /* Design tokens */
+  --dw-bg:            #f3f0ff;
+  --dw-bg-deep:       #ede9fe;
+  --dw-surface:       rgba(124, 58, 237, 0.06);
+  --dw-surface-strong: rgba(124, 58, 237, 0.10);
+  --dw-border:        rgba(124, 58, 237, 0.14);
+  --dw-border-strong: rgba(124, 58, 237, 0.22);
+  --dw-text:          #1a1433;
+  --dw-muted:         rgba(26, 20, 51, 0.45);
+  --dw-muted-strong:  rgba(26, 20, 51, 0.7);
+  --dw-shadow-soft:   0 10px 30px -10px rgba(124, 58, 237, 0.2);
+  --dw-shadow-float:  0 20px 50px -20px rgba(124, 58, 237, 0.3);
+
+  /* Ionic overrides */
+  --ion-background-color:     #f3f0ff;
+  --ion-background-color-rgb: 243, 240, 255;
+  --ion-text-color:           #1a1433;
+  --ion-text-color-rgb:       26, 20, 51;
+  --ion-border-color:         rgba(124, 58, 237, 0.14);
+  --ion-item-background:      rgba(124, 58, 237, 0.06);
+  --ion-toolbar-background:   #ede9fe;
+  --ion-card-background:      #ffffff;
+  --ion-color-step-50:        #e9e4ff;
+  --ion-color-step-100:       #ddd6ff;
+  --ion-color-step-150:       #d1c8ff;
+  --ion-color-step-200:       #c5baff;
+
+  ion-app, ion-content { background: var(--dw-bg); }
+
+  /* Toast */
+  .dw-toast {
+    --background: #ffffff;
+    --color: #1a1433;
+    --box-shadow: 0 10px 30px -10px rgba(124,58,237,0.25);
+  }
+
+  /* Alert */
+  .dw-alert .alert-wrapper {
+    background: #ffffff !important;
+    border-color: rgba(124,58,237,0.2) !important;
+    .alert-title   { color: #1a1433 !important; }
+    .alert-message { color: rgba(26,20,51,0.7) !important; }
+  }
+
+  /* Loading spinner */
+  .dw-spinner .loading-wrapper {
+    background: #ffffff !important;
+    color: rgba(26,20,51,0.75) !important;
+  }
+
+  /* Reaction sheet */
+  .reaction-sheet::part(content) {
+    background: #ffffff;
+  }
+
+  /* Glass surfaces */
+  .dw-glass       { background: rgba(255,255,255,0.7);  border-color: rgba(124,58,237,0.14); }
+  .dw-glass-strong { background: rgba(255,255,255,0.85); border-color: rgba(124,58,237,0.22); }
+
+  /* Orbs — softer in light mode */
+  .dw-orb { opacity: 0.25; }
+
+  /* ── Page backgrounds ── */
+  .db-content, .mv-content, .co-content, .si-content, .su-content, .nc-content {
+    --background: #f3f0ff;
+  }
+
+  /* ── Toolbars ── */
+  .db-header ion-toolbar, .mv-header ion-toolbar {
+    --background: rgba(237, 233, 254, 0.92) !important;
+    --border-color: rgba(124, 58, 237, 0.12) !important;
+    --color: #1a1433 !important;
+  }
+  .icon-btn {
+    --color: rgba(26, 20, 51, 0.6) !important;
+    &.active { --color: var(--dw-primary) !important; }
+  }
+
+  /* ── Balance panel ── */
+  .bp-container {
+    background:
+      radial-gradient(ellipse at top right, rgba(236,72,153,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at bottom left, rgba(124,58,237,0.18) 0%, transparent 60%),
+      linear-gradient(135deg, #ede9fe 0%, #e4d9fb 55%, #ddd6ff 100%) !important;
+    border-color: rgba(124, 58, 237, 0.22);
+    box-shadow: 0 20px 60px -20px rgba(124, 58, 237, 0.25);
+  }
+  .bp-welcome { color: rgba(26, 20, 51, 0.55) !important; }
+  .bp-name    { color: #1a1433 !important; }
+  .bp-lbl     { color: rgba(26, 20, 51, 0.55) !important; }
+  .bp-amount  {
+    background: linear-gradient(135deg, #1a1433 0%, #7c3aed 60%, #ec4899 100%) !important;
+    background-size: 200% 200% !important;
+    -webkit-background-clip: text !important; background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+
+  /* ── Action grid ── */
+  .ag-label { color: rgba(26, 20, 51, 0.75) !important; }
+  .ag-btn:hover .ag-label { color: rgba(26, 20, 51, 0.95) !important; }
+
+  /* ── Dashboard section headers ── */
+  .db-section-header h3 { color: rgba(26, 20, 51, 0.9) !important; }
+  .see-all-btn          { color: rgba(26, 20, 51, 0.5); }
+  .see-all-btn:hover    { color: rgba(26, 20, 51, 0.8); }
+
+  /* ── Card action buttons ── */
+  .card-ctas .cta-btn {
+    background: rgba(124, 58, 237, 0.07);
+    border-color: rgba(124, 58, 237, 0.16);
+    color: rgba(26, 20, 51, 0.85) !important;
+    .cta-icon { background: rgba(124, 58, 237, 0.15); }
+  }
+
+  /* ── Dots indicator ── */
+  .dots-row .dot { background: rgba(26, 20, 51, 0.18); }
+
+  /* ── Empty states ── */
+  .db-empty {
+    background: linear-gradient(160deg, rgba(124,58,237,0.05), rgba(124,58,237,0.02));
+    border-color: rgba(124, 58, 237, 0.14);
+    p    { color: rgba(26, 20, 51, 0.75) !important; }
+    .empty-sub { color: rgba(26, 20, 51, 0.45) !important; }
+  }
+  .db-empty-sm {
+    background: rgba(124, 58, 237, 0.05);
+    ion-icon { color: rgba(26, 20, 51, 0.3) !important; }
+    span     { color: rgba(26, 20, 51, 0.45) !important; }
+  }
+
+  /* ── Action-sheet modals ── */
+  .action-sheet-modal .sheet-handle { background: rgba(26, 20, 51, 0.18); }
+  .action-sheet-modal .modal-field {
+    label { opacity: 0.6; color: #1a1433 !important; }
+    ion-input {
+      --background: rgba(124, 58, 237, 0.05);
+      border-color: rgba(124, 58, 237, 0.18) !important;
+    }
+  }
+
+  /* ── Movements summary card ── */
+  .mv-summary {
+    background:
+      radial-gradient(ellipse at top right, rgba(236,72,153,0.08) 0%, transparent 55%),
+      radial-gradient(ellipse at bottom left, rgba(124,58,237,0.12) 0%, transparent 55%),
+      linear-gradient(135deg, #f0eafe, #ede9fe 60%, #e4d9fb) !important;
+    border-color: rgba(124, 58, 237, 0.18);
+    box-shadow: 0 10px 30px -10px rgba(124, 58, 237, 0.18);
+  }
+  .summary-lbl { color: rgba(26, 20, 51, 0.55) !important; }
+  .summary-sub { color: rgba(26, 20, 51, 0.45) !important; }
+  .summary-amt {
+    background: linear-gradient(135deg, #1a1433 0%, #7c3aed 100%) !important;
+    -webkit-background-clip: text !important; background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+  .summary-amt.net-positive {
+    background: linear-gradient(135deg, #1a1433 0%, #059669 100%) !important;
+    -webkit-background-clip: text !important; background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+  .summary-amt.net-negative {
+    background: linear-gradient(135deg, #1a1433 0%, #dc2626 100%) !important;
+    -webkit-background-clip: text !important; background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+  .summary-breakdown {
+    background: rgba(124, 58, 237, 0.06);
+    border-color: rgba(124, 58, 237, 0.14);
+    .breakdown-divider { background: rgba(124, 58, 237, 0.14); }
+    .bd-lbl { color: #1a1433 !important; opacity: 0.55; }
+  }
+
+  /* ── Filters ── */
+  .filter-card {
+    background: linear-gradient(160deg, rgba(124,58,237,0.08), rgba(124,58,237,0.03));
+    border-color: rgba(124, 58, 237, 0.14);
+  }
+  .filter-field {
+    ion-select, ion-input {
+      --color: rgba(26, 20, 51, 0.85) !important;
+      --placeholder-color: rgba(26, 20, 51, 0.3) !important;
+    }
+  }
+  .filter-divider { background: rgba(124, 58, 237, 0.1); }
+  .list-hint {
+    color: rgba(26, 20, 51, 0.45) !important;
+    background: rgba(124, 58, 237, 0.04);
+    border-color: rgba(124, 58, 237, 0.12);
+  }
+
+  /* ── Reaction panel ── */
+  .reaction-handle  { background: rgba(26, 20, 51, 0.18); }
+  .reaction-title   { color: #1a1433 !important; }
+  .reaction-sub     { color: rgba(26, 20, 51, 0.5) !important; }
+  .reaction-btn {
+    background: rgba(124, 58, 237, 0.06);
+    border-color: rgba(124, 58, 237, 0.14);
+  }
+
+  /* ── Movement list rows ── */
+  .mv-row {
+    background: linear-gradient(135deg, rgba(124,58,237,0.06), rgba(124,58,237,0.03)) !important;
+    border-color: rgba(124, 58, 237, 0.1) !important;
+    &:hover {
+      background: rgba(124, 58, 237, 0.09) !important;
+      border-color: rgba(124, 58, 237, 0.25) !important;
+    }
+  }
+  .store-name { color: #1a1433 !important; }
+  .meta       { color: rgba(26, 20, 51, 0.5) !important; }
+  .meta-chip  {
+    background: rgba(124, 58, 237, 0.08) !important;
+    border-color: rgba(124, 58, 237, 0.14) !important;
+    color: rgba(26, 20, 51, 0.65) !important;
+  }
+  .mv-amount .amt     { color: #dc2626 !important; }
+  .mv-amount .amt.income { color: #059669 !important; }
+  .mv-amount .tag     { color: rgba(26, 20, 51, 0.4) !important; }
+  .mv-empty {
+    color: rgba(26, 20, 51, 0.55) !important;
+    p { color: rgba(26, 20, 51, 0.8) !important; }
+    .empty-sub { color: rgba(26, 20, 51, 0.45) !important; }
+  }
+
+  /* ── Form elements (shared across pages) ── */
+  .field-group label { color: rgba(26, 20, 51, 0.55) !important; }
+  .field-inner {
+    background: rgba(124, 58, 237, 0.05) !important;
+    border-color: rgba(124, 58, 237, 0.18) !important;
+    ion-icon { color: rgba(26, 20, 51, 0.4) !important; }
+    ion-input, ion-select {
+      --color: #1a1433 !important;
+      --placeholder-color: rgba(26, 20, 51, 0.35) !important;
+    }
+    &:focus-within {
+      background: rgba(124, 58, 237, 0.08) !important;
+      border-color: rgba(124, 58, 237, 0.55) !important;
+    }
+  }
+
+  /* ── Back buttons ── */
+  .back-btn {
+    background: rgba(124, 58, 237, 0.08);
+    border-color: rgba(124, 58, 237, 0.2);
+    color: rgba(26, 20, 51, 0.8) !important;
+  }
+
+  /* ── Auth / form cards ── */
+  .si-card, .su-card, .nc-form-card {
+    background: linear-gradient(160deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.75) 100%) !important;
+    border-color: rgba(124, 58, 237, 0.18);
+    box-shadow: 0 20px 60px -20px rgba(124, 58, 237, 0.2);
+  }
+  .si-header p, .su-header p, .nc-header p, .co-header p {
+    color: rgba(26, 20, 51, 0.5) !important;
+  }
+  .si-footer, .su-footer { color: rgba(26, 20, 51, 0.45) !important; }
+
+  /* ── Dividers ── */
+  .divider {
+    &::before, &::after { background: rgba(124, 58, 237, 0.14) !important; }
+    span { color: rgba(26, 20, 51, 0.4) !important; }
+  }
+
+  /* ── Ghost buttons ── */
+  .btn-ghost {
+    background: rgba(124, 58, 237, 0.06);
+    border-color: rgba(124, 58, 237, 0.18);
+    color: rgba(26, 20, 51, 0.85) !important;
+    &:hover {
+      background: rgba(124, 58, 237, 0.1);
+      border-color: rgba(124, 58, 237, 0.28);
+    }
+  }
+
+  /* ── Signup progress dots ── */
+  .su-progress .dot  { background: rgba(26, 20, 51, 0.14) !important; }
+  .su-progress .dash { background: rgba(26, 20, 51, 0.1) !important; }
+  .su-section:not(:first-child) { border-top-color: rgba(124, 58, 237, 0.14) !important; }
+
+  /* ── Checkout amount highlight ── */
+  .amount-highlight {
+    background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(236,72,153,0.08)) !important;
+    border-color: rgba(124, 58, 237, 0.3);
+    .amt-label { color: rgba(26, 20, 51, 0.55) !important; }
   }
 }

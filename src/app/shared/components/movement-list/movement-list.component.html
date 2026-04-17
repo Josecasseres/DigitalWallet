@@ -1,13 +1,16 @@
 <div class="mv-list" *ngIf="items.length > 0; else noItems">
   <div class="mv-row"
     *ngFor="let item of items; let i = index; trackBy: trackById"
+    [class.is-deposit]="item.type === 'deposit'"
     [style.animation-delay]="(0.05 * i) + 's'"
-    (mousedown)="startHold(item)" (mouseup)="endHold()" (mouseleave)="endHold()"
-    (touchstart)="startHold(item)" (touchend)="endHold()" (touchcancel)="endHold()">
-    <div class="mv-icon" [class.has-reaction]="item.reaction">
+    (mousedown)="startHold(item)"
+    (mouseup)="endHold()" (mouseleave)="endHold()"
+    (touchstart)="startHold(item)"
+    (touchend)="endHold()" (touchcancel)="endHold()">
+    <div class="mv-icon" [class.has-reaction]="item.reaction" [class.is-deposit-icon]="item.type === 'deposit'">
       <span *ngIf="item.reaction; else defaultIcon" class="emoji-bounce">{{ item.reaction }}</span>
       <ng-template #defaultIcon>
-        <ion-icon name="receipt-outline"></ion-icon>
+        <ion-icon [name]="item.type === 'deposit' ? 'trending-up-outline' : 'receipt-outline'"></ion-icon>
       </ng-template>
     </div>
     <div class="mv-info">
@@ -19,7 +22,9 @@
       </small>
     </div>
     <div class="mv-amount">
-      <span class="amt">-${{ item.chargedAmount | number:'1.0-0' }}</span>
+      <span class="amt" [class.income]="item.type === 'deposit'">
+        {{ item.type === 'deposit' ? '+' : '-' }}${{ item.chargedAmount | number:'1.0-0' }}
+      </span>
       <span class="tag">COP</span>
     </div>
   </div>

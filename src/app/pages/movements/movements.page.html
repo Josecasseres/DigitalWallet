@@ -21,16 +21,38 @@
   </div>
 
   <div class="mv-stack">
-    <div class="mv-summary dw-anim-fade-down">
+    <div class="mv-summary dw-anim-fade-down" [class.positive]="isPositive$ | async">
       <div class="summary-inner">
         <div class="summary-block">
-          <span class="summary-lbl">Total gastado</span>
-          <span class="summary-amt">${{ (totalSpent$ | async) | number:'1.0-0' }}</span>
-          <span class="summary-sub">En este periodo</span>
+          <span class="summary-lbl">Balance del periodo</span>
+          <ng-container *ngIf="netBalance$ | async as net">
+            <span class="summary-amt" [class.net-positive]="net >= 0" [class.net-negative]="net < 0">
+              {{ net >= 0 ? '+' : '' }}${{ net | number:'1.0-0' }}
+            </span>
+          </ng-container>
+          <span class="summary-sub">Ingresos menos gastos</span>
         </div>
-        <div class="summary-icon">
+        <div class="summary-icon" [class.positive-icon]="isPositive$ | async">
           <div class="icon-ring"></div>
-          <ion-icon name="trending-down"></ion-icon>
+          <ion-icon [name]="(isPositive$ | async) ? 'trending-up' : 'trending-down'"></ion-icon>
+        </div>
+      </div>
+
+      <div class="summary-breakdown">
+        <div class="breakdown-item income">
+          <ion-icon name="arrow-down-circle-outline"></ion-icon>
+          <div>
+            <span class="bd-lbl">Ingresado</span>
+            <span class="bd-val">+${{ (totalIncome$ | async) | number:'1.0-0' }}</span>
+          </div>
+        </div>
+        <div class="breakdown-divider"></div>
+        <div class="breakdown-item expense">
+          <ion-icon name="arrow-up-circle-outline"></ion-icon>
+          <div>
+            <span class="bd-lbl">Gastado</span>
+            <span class="bd-val">-${{ (totalSpent$ | async) | number:'1.0-0' }}</span>
+          </div>
         </div>
       </div>
 
@@ -59,7 +81,10 @@
         <div class="filter-divider"></div>
         <div class="filter-field">
           <ion-icon name="calendar-outline"></ion-icon>
-          <ion-input type="date" placeholder="Filtrar por fecha" (ionChange)="onDateFilter($any($event))"></ion-input>
+          <app-date-selector
+            label="Filtrar por fecha"
+            (dateChanged)="onDateFilter($event)">
+          </app-date-selector>
         </div>
       </div>
     </div>
@@ -80,13 +105,13 @@
 <ion-modal
   [isOpen]="!!activeItem"
   (didDismiss)="closeReactions()"
-  [initialBreakpoint]="0.45"
-  [breakpoints]="[0, 0.45]"
+  [initialBreakpoint]="0.65"
+  [breakpoints]="[0, 0.65]"
   cssClass="reaction-sheet">
   <ng-template>
     <div class="reaction-panel">
       <div class="reaction-handle"></div>
-      <p class="reaction-title">¿Cómo fue este gasto?</p>
+      <p class="reaction-title">¿Qué tal este movimiento?</p>
       <span class="reaction-sub">Toca una reacción para dejar tu impresión</span>
       <div class="reaction-grid">
         <button class="reaction-btn" *ngFor="let r of reactions; let i = index"

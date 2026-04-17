@@ -141,3 +141,19 @@
   p { font-size: 14px; margin: 0 0 4px; font-weight: 600; color: rgba(255,255,255,0.8); }
   .empty-sub { font-size: 12px; color: rgba(255,255,255,0.4); }
 }
+
+// Deposit / income rows
+.mv-row.is-deposit {
+  &::before { background: linear-gradient(180deg, #34d399, #059669); }
+  &:hover { border-color: rgba(52,211,153,0.3); }
+}
+
+.mv-icon.is-deposit-icon {
+  background: rgba(52,211,153,0.15);
+  border-color: rgba(52,211,153,0.35);
+  ion-icon { color: #34d399; }
+}
+
+.mv-amount .amt.income {
+  color: #34d399;
+}

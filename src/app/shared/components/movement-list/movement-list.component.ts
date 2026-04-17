@@ -14,7 +14,7 @@ export class MovementListComponent {
   private holdTimer: ReturnType<typeof setTimeout> | null = null;
 
   startHold(item: Movement): void {
-    this.holdTimer = setTimeout(() => this.holdItem.emit(item), 2000);
+    this.holdTimer = setTimeout(() => this.holdItem.emit(item), 600);
   }
 
   endHold(): void {
